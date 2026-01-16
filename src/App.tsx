@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { TubesBackground } from './components/ui/neon-flow';
 import { ProcessLoop } from './components/ui/process-loop';
+import { MethodologyDetails } from './components/ui/methodology-details';
 import { IdeSimulation } from './components/ui/ide-simulation';
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 function App() {
   const [activePhase, setActivePhase] = useState<0 | 1 | 2>(0);
+  const ideSimulationRef = useRef<HTMLElement>(null);
+
+  const handlePhaseClick = () => {
+    // Scroll to IDE Simulation section only on manual click
+    ideSimulationRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
 
   return (
     <div className="min-h-screen">
@@ -51,11 +61,16 @@ function App() {
 
       {/* Process Loop Section */}
       <section className="min-h-screen bg-gradient-to-b from-background to-surface">
-        <ProcessLoop onPhaseChange={setActivePhase} />
+        <ProcessLoop onPhaseChange={setActivePhase} onPhaseClick={handlePhaseClick} />
+      </section>
+
+      {/* Methodology Details Section */}
+      <section className="min-h-screen">
+        <MethodologyDetails />
       </section>
 
       {/* IDE Simulation Section */}
-      <section className="min-h-screen">
+      <section ref={ideSimulationRef} className="min-h-screen">
         <IdeSimulation activePhase={activePhase} />
       </section>
 

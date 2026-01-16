@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 interface ProcessLoopProps {
   autoPlayInterval?: number;
   onPhaseChange?: (phase: 0 | 1 | 2) => void;
+  onPhaseClick?: (phase: 0 | 1 | 2) => void;
   className?: string;
 }
 
@@ -65,6 +66,7 @@ const phases: PhaseData[] = [
 export function ProcessLoop({
   autoPlayInterval = 4000,
   onPhaseChange,
+  onPhaseClick,
   className
 }: ProcessLoopProps) {
   const [activePhase, setActivePhase] = useState<Phase>(0);
@@ -83,6 +85,7 @@ export function ProcessLoop({
 
   const handlePhaseClick = (phase: Phase) => {
     setActivePhase(phase);
+    onPhaseClick?.(phase);
   };
 
   return (
